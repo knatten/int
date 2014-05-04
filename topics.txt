@@ -143,6 +143,17 @@ The type of a raw string literal is const char[]
 Mention cppquiz.org
 Most questions there are more practical! This is more of a curiosity.
 
+abc5.cpp
+    const char a[] = "ABC";
+    cout << typeid(a).name() << endl;
+
+    cout << typeid(1 + a).name() << endl;
+
+    const char* ptr = 1 + a;
+    cout << ptr << endl;
+
+    cout << *ptr << endl;
+
 auto in foreach is not reference
 move
 
