@@ -51,7 +51,7 @@ Implementation defined, get back to it
 
 unsigned_overflow.cpp
 §3.9.1¶4
-Unsigned integers, declared unsigned, shall obey the laws of arithmetic modulo 2^32n where n is the number of bits in the value representation of that particular size of integer.
+Unsigned integers, declared unsigned, shall obey the laws of arithmetic modulo 2^n where n is the number of bits in the value representation of that particular size of integer.
 Why this rule? Isn't it expensive to check for overflow and do modulo?
 
 unsigned_overflow.txt
@@ -59,7 +59,7 @@ Calculate decimal, do modulo: 18 % 16 = 2
 The C/C++ standards are often guided by what's more efficient for the CPU rather than convenient for the programmer
 You're never supposed to pay for something you don't use. The compiler always assumes you know what you're doing
 This is why we don't have bounds checking on containers etc.
-Also why C/C++ is extremely dangerous!
+Also why C/C++ is fast extremely dangerous!
 
 signed_overflow.cpp
 Two correct answers, I want both
@@ -74,6 +74,8 @@ Three bit system, but true for any system
 Tell about adding 3 + 1 = -4
 NOT mandated by the standard, so no guarantee for behaviour
 That's it for the implementation of ints.
+
+! 25 min
 
 LATER:
 Why am I telling you this?
