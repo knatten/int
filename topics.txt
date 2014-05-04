@@ -139,6 +139,7 @@ Looks like we take an int, use an array subscript, and then a string to index in
 
 abc2.cpp
 Go through the proof
+The type of a raw string literal is const char[]
 Mention cppquiz.org
 Most questions there are more practical! This is more of a curiosity.
 
@@ -156,3 +157,11 @@ Why did I make this talk?
 -If you want to know how something works in C/C++, the worst thing you can do is try and see!
 -Everything is there in the standard, don't be afraid to have a look. It can be a bit confusing at first, but you get used to it. Language is intended to be precise, it's not written as a tutorial.
 -I like technical talks about how low-level stuff actually works. Enough talks about yet another framework or process!
+
+
+New talk description:
+So you think you can int? (C++)
+
+There's an old saying; "When in doubt, do as the ints do.". But what do they do, exactly? How big is an int? What happens if it's not initialized? What happens when it overflows? Why on earth does 1["ABC"] even compile?
+
+In this talk, you will learn why you need to know operating system security, activation records and standardese to understand how an int works in C++.
