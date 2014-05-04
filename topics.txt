@@ -130,6 +130,7 @@ f: static means there is only one instance of f. If we call x() and set f, then 
 d: static menas there is only one d shared between all objects of the class. Change it in one object, it has that value in the others as well. We don't even need to make an object of the class.
 a and b both have static storage duration. All global variables have static storage duration. static only means that a has internal linkage, can only be used in this cpp file. b by default has external linkage, and can be used in other cpp files as well. So static means something different here, which is unfortunate.
 
+! 40 min
 
 Before we move on, let's take a break with this little quiz that I promised
 
