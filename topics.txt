@@ -132,7 +132,7 @@ a and b both have static storage duration. All global variables have static stor
 
 ! 40 min
 
-Before we move on, let's take a break with this little quiz that I promised
+Ok, time for the teaser I promised in the talk description!
 
 abc.cpp
 Looks like we take an int, use an array subscript, and then a string to index into the int. Does this even compile?
@@ -143,16 +143,34 @@ The type of a raw string literal is const char[]
 Mention cppquiz.org
 Most questions there are more practical! This is more of a curiosity.
 
-abc5.cpp
-    const char abc[] = "ABC";
-    cout << typeid(abc).name() << endl;
+Could we understand this without taking the proof all the way?
 
-    cout << typeid(1 + abc).name() << endl;
+abc5.cpp
+    cout << typeid("ABC").name() << endl;
+
+Arrays almost don't exist in C++. They will very quickly decay to a pointer.
+    cout << typeid(1 + "ABC").name() << endl;
 
     const char* ptr = 1 + abc;
     cout << ptr << endl;
+Is this going to print B?
 
     cout << *ptr << endl;
+
+arrays.cpp
+    http://c-faq.com/aryptr/aryptrparam.html
+
+    cout << sizeof(cake) << endl;
+    cout << sizeof((const char *)cake) << endl;
+
+
+void f(const char cake[])
+{
+    cout << sizeof(cake) << endl;
+    cout << typeid(cake).name() << endl;
+}
+Explain that it is actually a pointer
+Then print typeid of cake in main
 
 auto in foreach is not reference
 move
@@ -175,4 +193,4 @@ So you think you can int? (C++)
 
 There's an old saying; "When in doubt, do as the ints do.". But what do they do, exactly? How big is an int? What happens if it's not initialized? What happens when it overflows? Why on earth does 1["ABC"] even compile?
 
-In this talk, you will learn why you need to know operating system security, activation records and standardese to understand how an int works in C++.
+In this talk, you will learn why you need to know operating system security, activation records and standardese to understand a simple int in C++.

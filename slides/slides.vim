@@ -34,3 +34,5 @@ n author.txt
 \ abc2.cpp
 \ abc3.cpp
 \ abc4.cpp
+\ abc5.cpp
+\ arrays.cpp
