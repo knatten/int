@@ -1,0 +1,11 @@
+Talk title: "int"
+
+Description:
+There's an old saying; "When in doubt, do as the ints do.". But what do they do, exactly? How big is an int? What happens if it's not initialized? What happens when it overflows? Which other types will it implicitly convert to? Why on earth does 1["ABC"] even compile?
+
+In this talk, Anders will use our humble friend, int, to discuss issues such as the above, [and more stuff I haven't figured out yet].
+
+The talk is suitable for beginning to intermediate C++ developers, but unless you get perfect scores at http://cppquiz.org, there is probably something to learn even for you.
+
+
+Anders [http://knatten.org] is a staff engineer at Outracks Technologies, where he helps create the Uno programming language. He is also the author of CppQuiz [http://cppquiz.org] and C++ on a Friday [http://blog.knatten.org], and occasionally rants on Twitter [https://twitter.com/knatten].

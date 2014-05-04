@@ -1,0 +1,155 @@
+F5: Compile
+Before starting:
+Comment out the Cpp command from slides
+Open the standard on another desktop
+
+author.txt
+I'm Anders, I work at Outracks Technologies where we're making a new language and tool for cross platform visual user experiences. I'm also the author of CppQuiz.org and the blog C++ on a Friday.
+
+I brought a lot of code, and I hope we can have a good discussion about it. Please interrupt with questions along the way, and I'm going to ask you a lot of questions too, so please don't be afraid to shout out both questions and answers.
+
+Now let's get started!
+
+whats-an-int.txt
+Ok, it's integers, whole numbers, positive, negative, zero
+Let's have a look
+
+sizeof.cpp
+§3.9.1
+How much space does it take?
+Hint. I'm on 64 bits
+4 bytes, 32 bits
+"Plain ints have the natural size suggested by the architecture of the execution environment"
+But they chose to keep it 32 bits for historical reasons probably
+
+What are the standard signed integer types?
+
+sizeof_all.cpp
+§3.9.1
+Five standard signed integer types
+Objects declared as characters (char) shall be large enough to store any member of the implementation’s basic character set. I think exactly 100 characters.
+Need 7 bits, but just as well to use 8
+Each one at least as big as previous: "each type provides at least as much storage as those preceding it in the list."
+
+sizeof_unsigned.cpp
+§3.9.1
+For each standard integer type, there is an unsigned integer type with the same amount of storage and alignment.
+
+char.cpp
+§3.9.1
+Same storage and alignment, same type? Is int the same as signed, unsigned, none, both?
+What about char?
+It is implementation-defined whether a char object can hold negative values.
+They are all distinct types, but with same storage and alignment.
+On my system, it is signed.
+
+limits.cpp
+Ask if anyone knows the exact number
+Implementation defined, get back to it
+
+! 15 min
+
+unsigned_overflow.cpp
+§3.9.1¶4
+Unsigned integers, declared unsigned, shall obey the laws of arithmetic modulo 2^32n where n is the number of bits in the value representation of that particular size of integer.
+Why this rule? Isn't it expensive to check for overflow and do modulo?
+
+unsigned_overflow.txt
+Calculate decimal, do modulo: 18 % 16 = 2
+The C/C++ standards are often guided by what's more efficient for the CPU rather than convenient for the programmer
+You're never supposed to pay for something you don't use. The compiler always assumes you know what you're doing
+This is why we don't have bounds checking on containers etc.
+Also why C/C++ is extremely dangerous!
+
+signed_overflow.cpp
+Two correct answers, I want both
+1: Undefined behaviour, anything could happen!
+   -Crash if you're lucky
+   -Corrupted data, wrong results, errors that don't manifest until later etc.
+2: On my machine I get largest negative number. Why?
+
+signed_overflow.txt
+Two's complement
+Three bit system, but true for any system
+Tell about adding 3 + 1 = -4
+NOT mandated by the standard, so no guarantee for behaviour
+That's it for the implementation of ints.
+
+LATER:
+Why am I telling you this?
+-I find it interesting to know the details of the language I'm using
+-If you want to know how something works in C/C++, the worst thing you can do is try and see!
+-Everything is there in the standard, don't be afraid to have a look. It can be a bit confusing at first, but you get used to it. Language is intended to be precise, it's not written as a tutorial.
+
+
+uninitialized.cpp
+Now we have looked at the types of ints, how big they are, what values they can take, but what if we don't give them any values?
+Why does it print 0? Because it is the default value of int? No!
+Again this is undefined behaviour, anything could happen.
+Did gcc decide to 0 it? Nope, I got fresh memory from the OS, which 0-ed it for security reasons.
+Not mandated by the standard, can not be relied on. Re-use memory will use previous values. And undefined is BAD!
+
+
+uninitialized2.cpp
+Move to a function. Uninitialized, print, assign.
+Call twice, what happens?
+Variables are not preserved between function invocations!
+It's not static.
+We get the same piece of memory as last invocation, the bits are still there.
+What if f() depends on i being 0.
+What if it's not an int, could be a bit pattern that isn't even a legal value
+Uninitialized variables, undefined behaviour, bad!
+
+
+static_uninitialized.cpp
+What if we give i static storage duration? What does it print now?
+The same. So what's the difference? No longer undefined behaviour!
+The rules are a bit complicated, but you can be sure that a static local is initialized no later than when control has passed through the declaration.
+So now we *know* it's two, it's not a random artifact of how the OS handles memory
+And when we call f() the second time, it is actually the same variable, which now has a well defined value, it doesn't just happen to re-use the same memory.
+
+§6.7¶4: The zero-initialization (8.5) of all block-scope variables with static storage duration (3.7.1) or thread storage duration (3.7.2) is performed before any other initialization takes place.
+if T is a scalar type (3.9), the object is set to the value 0 (zero), taken as an integral constant expression,
+§8.5¶5: To zero-initialize an object or reference of type T means: — if T is a scalar type (3.9), the object is set to the value 0 (zero), taken as an integral constant expression, converted to T;
+
+
+static_uninitialized2.cpp
+Same function, no longer static, plus g() that initializes a completely different variable.
+What does it print?
+Then put static in front of int i;
+Then put static in front of int j;
+
+But wait a minute, what is a static variable?
+
+static_variables.cpp
+A more precise term for what we're talking about now is "static storage duration". So given that, which of these variables are static?
+We agree that, b, d, f are static. c and e are not. What about a?
+f: static means there is only one instance of f. If we call x() and set f, then call it again, it retains the previous value. Not true for e.
+d: static menas there is only one d shared between all objects of the class. Change it in one object, it has that value in the others as well. We don't even need to make an object of the class.
+a and b both have static storage duration. All global variables have static storage duration. static only means that a has internal linkage, can only be used in this cpp file. b by default has external linkage, and can be used in other cpp files as well. So static means something different here, which is unfortunate.
+
+
+Before we move on, let's take a break with this little quiz that I promised
+
+abc.cpp
+Looks like we take an int, use an array subscript, and then a string to index into the int. Does this even compile?
+
+abc2.cpp
+Go through the proof
+Mention cppquiz.org
+Most questions there are more practical! This is more of a curiosity.
+
+auto in foreach is not reference
+move
+
+Ideas: On buffer open, write buffer name to disk. Python project that listens to that and servers notes and the line for the current buffer on http. Uno app that auto-scrolls notes.
+Fixing fonts: Use a global to hold the number, increase/decrease that and then set guifont. Then we avoid parsing. +/- to change.
+§¶
+Most important const
+Can we have a const member array and still change content
+Overload resolution, rank and all that stuff, implcit and explicit conversions
+
+Why did I make this talk?
+-If you want to know how something works in C/C++, the worst thing you can do is try and see!
+-Everything is there in the standard, don't be afraid to have a look. It can be a bit confusing at first, but you get used to it. Language is intended to be precise, it's not written as a tutorial.
+-I like technical talks about how low-level stuff actually works. Enough talks about yet another framework or process!

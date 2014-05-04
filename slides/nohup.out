@@ -1,0 +1,5 @@
+
+** (yelp:19859): WARNING **: Failed to get GNOME shell mode: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: No such interface 'org.freedesktop.DBus.Properties' on object at path /org/gnome/Shell
+
+(gnome-terminal:3537): GLib-GIO-WARNING **: Missing callback called fullpath = /home/anders/.config/ibus/bus/eda6c6939acbb7e9b4d9c00c0000000a-unix-0
+
