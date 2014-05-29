@@ -1,0 +1,306 @@
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body {font-size:1.5em;}
+h1 { font-size:1.5em;}
+</style>
+<script>
+
+function httpGet(theUrl)
+{
+    var xmlHttp = null;
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false );
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+
+function updatePage()
+{
+  var slide = httpGet('/slides/current_slide').trim();
+  scrollTo(slide);
+}
+
+function scrollTo(hash) {
+    location.hash = "#" + hash;
+}
+
+window.setInterval(function(){
+    updatePage();
+}, 500);
+
+</script>
+</head>
+<body>
+<h1>Before starting:</h1>
+<ul>
+<li>Comment out the Cpp command from slides</li>
+<li>Open the standard on another desktop</li>
+<li>python -m SimpleHTTPServer</li>
+</ul>
+
+<h1 id="author.txt">author.txt</h1>
+<p>
+I'm Anders, I work at Outracks Technologies where we're making a new language and tool for cross platform visual user experiences. At the bottom, we're building a hybrid language that allows you to write CPU and GPU code in the same language, which compiles for native Android, native iOS, native PC and webgl. For me with no graphics programming background, it's much easier than for instance using Open GL. On top of that we're building a tool for creating good-looking apps that work on all platforms. So it can be used for everything from simple cross platform apss to cool real-time 3D. We're currently in beta, so if you're interested, come by after the talk and have a beer with my colleague and I.
+</p>
+
+<p>
+I'm also the author of CppQuiz.org and the blog C++ on a Friday. And C++ is of course what this talk is about.
+</p>
+
+<p>
+I brought a lot of code, and I hope we can have a good discussion about it. Please interrupt with questions along the way, and I'm going to ask you a lot of questions too, so please don't be afraid to shout out both questions and answers.
+</p>
+
+<p>
+Now let's get started!
+</p>
+
+<h1 id="intro.txt">intro.txt</h1>
+<p>
+Skip
+</p>
+
+<h1 id="whats-an-int.txt">whats-an-int.txt</h1>
+<ul>
+<li>Ok, it's integers, whole numbers, positive, negative, zero</li>
+<li>Formally, a type is a set of values, and the operations that are defined for those values.</li>
+<li>More itneresting for this talk, is how they actually behave.</li>
+<li>Let's have a look</li>
+</ul>
+
+<h1 id="sizeof.cpp">sizeof.cpp</h1>
+<ul>
+<li>§3.9.1</li>
+<li>How much space does it take?</li>
+<li>Hint. I'm on 64 bits</li>
+<li>4 bytes, 32 bits</li>
+<li>"Plain ints have the natural size suggested by the architecture of the execution environment"</li>
+<li>But they chose to keep it 32 bits for historical reasons probably</li>
+</ul>
+
+<ul>
+<li>What are the standard signed integer types?</li>
+</ul>
+
+<h1 id="sizeof_all.cpp">sizeof_all.cpp</h1>
+<ul>
+<li>§3.9.1</li>
+<li>Five standard signed integer types</li>
+<li>Objects declared as characters (char) shall be large enough to store any member of the implementation’s basic character set. I think exactly 100 characters.</li>
+<li>Need 7 bits, but just as well to use 8</li>
+<li>Each one at least as big as previous: "each type provides at least as much storage as those preceding it in the list."</li>
+</ul>
+
+<h1 id="sizeof_unsigned.cpp">sizeof_unsigned.cpp</h1>
+<ul>
+<li>§3.9.1</li>
+<li>For each standard integer type, there is an unsigned integer type with the same amount of storage and alignment.</li>
+</ul>
+
+<h1 id="char.cpp">char.cpp</h1>
+<ul>
+<li>§3.9.1</li>
+<li>Same storage and alignment, same type? Is int the same as signed, unsigned, none, both?</li>
+<li>What about char?</li>
+<li>It is implementation-defined whether a char object can hold negative values.</li>
+<li>They are all distinct types, but with same storage and alignment.</li>
+<li>On my system, it is signed.</li>
+</ul>
+
+<h1 id="limits.cpp">limits.cpp</h1>
+<ul>
+<li>Ask if anyone knows the exact number</li>
+<li>Implementation defined, get back to it</li>
+</ul>
+
+<ul>
+<li>! 15 min</li>
+</ul>
+
+<h1 id="unsigned_overflow.cpp">unsigned_overflow.cpp</h1>
+<ul>
+<li>§3.9.1¶4</li>
+<li>Unsigned integers, declared unsigned, shall obey the laws of arithmetic modulo 2^n where n is the number of bits in the value representation of that particular size of integer.</li>
+<li>Why this rule? Isn't it expensive to check for overflow and do modulo?</li>
+</ul>
+
+<h1 id="unsigned_overflow.txt">unsigned_overflow.txt</h1>
+<ul>
+<li>Calculate decimal, do modulo: 18 % 16 = 2</li>
+<li>The C/C++ standards are often guided by what's more efficient for the CPU rather than convenient for the programmer</li>
+<li>You're never supposed to pay for something you don't use. The compiler always assumes you know what you're doing</li>
+<li>This is why we don't have bounds checking on containers etc.</li>
+<li>Also why C/C++ is fast extremely dangerous!</li>
+</ul>
+
+<h1 id="signed_overflow.cpp">signed_overflow.cpp</h1>
+<ul>
+<li>Two correct answers, I want both</li>
+<li>1: Undefined behaviour, anything could happen!</li>
+<li>   -Crash if you're lucky</li>
+<li>   -Corrupted data, wrong results, errors that don't manifest until later etc.</li>
+<li>2: On my machine I get largest negative number. Why?</li>
+</ul>
+
+<h1 id="signed_overflow.txt">signed_overflow.txt</h1>
+<ul>
+<li>Two's complement</li>
+<li>Three bit system, but true for any system</li>
+<li>Tell about adding 3 + 1 = -4</li>
+<li>NOT mandated by the standard, so no guarantee for behaviour</li>
+<li>That's it for the implementation of ints.</li>
+</ul>
+
+<ul>
+<li>! 25 min</li>
+</ul>
+
+<ul>
+<li>LATER:</li>
+<li>Why am I telling you this?</li>
+<li>-I find it interesting to know the details of the language I'm using</li>
+<li>-If you want to know how something works in C/C++, the worst thing you can do is try and see!</li>
+<li>-Everything is there in the standard, don't be afraid to have a look. It can be a bit confusing at first, but you get used to it. Language is intended to be precise, it's not written as a tutorial.</li>
+</ul>
+
+
+<h1 id="uninitialized.cpp">uninitialized.cpp</h1>
+<ul>
+<li>Now we have looked at the types of ints, how big they are, what values they can take, but what if we don't give them any values?</li>
+<li>Why does it print 0? Because it is the default value of int? No!</li>
+<li>Again this is undefined behaviour, anything could happen.</li>
+<li>Did gcc decide to 0 it? Nope, I got fresh memory from the OS, which 0-ed it for security reasons.</li>
+<li>Not mandated by the standard, can not be relied on. Re-use memory will use previous values. And undefined is BAD!</li>
+</ul>
+
+
+<h1 id="uninitialized2.cpp">uninitialized2.cpp</h1>
+<ul>
+<li>Move to a function. Uninitialized, print, assign.</li>
+<li>Call twice, what happens?</li>
+<li>Variables are not preserved between function invocations!</li>
+<li>It's not static.</li>
+<li>We get the same piece of memory as last invocation, the bits are still there.</li>
+<li>What if f() depends on i being 0.</li>
+<li>What if it's not an int, could be a bit pattern that isn't even a legal value</li>
+<li>Uninitialized variables, undefined behaviour, bad!</li>
+</ul>
+
+
+<h1 id="static_uninitialized.cpp">static_uninitialized.cpp</h1>
+<ul>
+<li>What if we give i static storage duration? What does it print now?</li>
+<li>The same. So what's the difference? No longer undefined behaviour!</li>
+<li>The rules are a bit complicated, but you can be sure that a static local is initialized no later than when control has passed through the declaration.</li>
+<li>So now we *know* it's two, it's not a random artifact of how the OS handles memory</li>
+<li>And when we call f() the second time, it is actually the same variable, which now has a well defined value, it doesn't just happen to re-use the same memory.</li>
+</ul>
+
+<ul>
+<li>§6.7¶4: The zero-initialization (8.5) of all block-scope variables with static storage duration (3.7.1) or thread storage duration (3.7.2) is performed before any other initialization takes place.</li>
+<li>if T is a scalar type (3.9), the object is set to the value 0 (zero), taken as an integral constant expression,</li>
+<li>§8.5¶5: To zero-initialize an object or reference of type T means: — if T is a scalar type (3.9), the object is set to the value 0 (zero), taken as an integral constant expression, converted to T;</li>
+</ul>
+
+
+<h1 id="static_uninitialized2.cpp">static_uninitialized2.cpp</h1>
+<ul>
+<li>Same function, no longer static, plus g() that initializes a completely different variable.</li>
+<li>What does it print?</li>
+<li>Then put static in front of int i;</li>
+<li>Then put static in front of int j;</li>
+</ul>
+
+But wait a minute, what is a static variable?
+
+<h1 id="static_variables.cpp">static_variables.cpp</h1>
+<ul>
+<li>A more precise term for what we're talking about now is "static storage duration". So given that, which of these variables are static?</li>
+<li>We agree that, b, d, f are static. c and e are not. What about a?</li>
+<li>f: static means there is only one instance of f. If we call x() and set f, then call it again, it retains the previous value. Not true for e.</li>
+<li>d: static menas there is only one d shared between all objects of the class. Change it in one object, it has that value in the others as well. We don't even need to make an object of the class.</li>
+<li>a and b both have static storage duration. All global variables have static storage duration. static only means that a has internal linkage, can only be used in this cpp file. b by default has external linkage, and can be used in other cpp files as well. So static means something different here, which is unfortunate.</li>
+</ul>
+
+<p>
+! 40 min
+</p>
+
+<h2> Ok, time for the teaser I promised in the talk description!  </h2>
+
+<h1 id="abc.cpp">abc.cpp</h1>
+<p>
+Looks like we take an int, use an array subscript, and then a string to index into the int. Does this even compile?
+</p>
+
+<h1 id="abc2.cpp">abc2.cpp</h1>
+<p>
+Go through the proof
+The type of a raw string literal is const char[]
+Mention cppquiz.org
+Most questions there are more practical! This is more of a curiosity.
+</p>
+
+<p>
+Could we understand this without taking the proof all the way?
+</p>
+
+<h1 id="abc5.cpp">abc5.cpp</h1>
+    cout << typeid("ABC").name() << endl;
+
+Then remove parenthesis. 
+
+Arrays almost don't exist in C++. They will very quickly decay to a pointer.
+
+§2.14.5¶8 A narrow string literal has type “array of n const char”
+Also manually cast "ABC" to const char*
+
+
+    cout << typeid(1 + "ABC").name() << endl;
+
+    const char* ptr = 1 + abc;
+    cout << ptr << endl;
+Is this going to print B?
+
+    cout << *ptr << endl;
+
+<h1 id="arrays.cpp">arrays.cpp</h1>
+    http://c-faq.com/aryptr/aryptrparam.html
+
+    cout << sizeof(cake) << endl;
+    cout << sizeof((const char *)cake) << endl;
+
+
+void f(const char cake[])
+{
+    cout << sizeof(cake) << endl;
+    cout << typeid(cake).name() << endl;
+}
+Explain that it is actually a pointer
+Then print typeid of cake in main
+
+auto in foreach is not reference
+move
+
+Ideas: On buffer open, write buffer name to disk. Python project that listens to that and servers notes and the line for the current buffer on http. Uno app that auto-scrolls notes.
+Fixing fonts: Use a global to hold the number, increase/decrease that and then set guifont. Then we avoid parsing. +/- to change.
+§¶
+Most important const
+Can we have a const member array and still change content
+Overload resolution, rank and all that stuff, implcit and explicit conversions
+
+Why did I make this talk?
+-If you want to know how something works in C/C++, the worst thing you can do is try and see!
+-Everything is there in the standard, don't be afraid to have a look. It can be a bit confusing at first, but you get used to it. Language is intended to be precise, it's not written as a tutorial.
+-I like technical talks about how low-level stuff actually works. Enough talks about yet another framework or process!
+
+
+New talk description:
+So you think you can int? (C++)
+
+There's an old saying; "When in doubt, do as the ints do.". But what do they do, exactly? How big is an int? What happens if it's not initialized? What happens when it overflows? Why on earth does 1["ABC"] even compile?
+
+In this talk, you will learn why you need to know operating system security, activation records and standardese to understand a simple int in C++.
+</body></html>
