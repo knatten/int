@@ -3,6 +3,6 @@
 using namespace std;
 
 int main() {
-    cout << 1["ABC"];
-    cout << *(1+"ABC") << endl;
+    cout << 1["ABC"] << endl;
+    cout << *((1) + ("ABC")) << endl;
 }
