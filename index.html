@@ -1,11 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<meta charset="utf-8">
-<style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title></title>
+<style type="text/css">
 body {font-size:1.5em;}
 h1 { font-size:1.5em;}
 </style>
-<script>
+
+<script type="text/javascript">
 
 function httpGet(theUrl)
 {
@@ -213,7 +217,7 @@ Skip
 <li>Then put static in front of int j;</li>
 </ul>
 
-But wait a minute, what is a static variable?
+<p>But wait a minute, what is a static variable?</p>
 
 <h1 id="static_variables.cpp">static_variables.cpp</h1>
 <ul>
@@ -248,59 +252,77 @@ Could we understand this without taking the proof all the way?
 </p>
 
 <h1 id="abc5.cpp">abc5.cpp</h1>
-    cout << typeid("ABC").name() << endl;
+<pre>
+cout << typeid("ABC").name() << endl;
+</pre>
 
-Then remove parenthesis. 
+<ul>
+<li>Then remove parenthesis. </li>
+<li>Arrays almost don't exist in C++. They will very quickly decay to a pointer.</li>
+<li>§2.14.5¶8 A narrow string literal has type “array of n const char”</li>
+<li>Also manually cast "ABC" to const char*</li>
+</ul>
 
-Arrays almost don't exist in C++. They will very quickly decay to a pointer.
-
-§2.14.5¶8 A narrow string literal has type “array of n const char”
-Also manually cast "ABC" to const char*
-
-
-    cout << typeid(1 + "ABC").name() << endl;
-
-    const char* ptr = 1 + abc;
-    cout << ptr << endl;
+<pre>
+cout << typeid(1 + "ABC").name() << endl;
+const char* ptr = 1 + abc;
+cout << ptr << endl;
+</pre>
+<p>
 Is this going to print B?
-
+</p>
+<pre>
     cout << *ptr << endl;
+</pre>
 
 <h1 id="arrays.cpp">arrays.cpp</h1>
-    http://c-faq.com/aryptr/aryptrparam.html
+<p>
+http://c-faq.com/aryptr/aryptrparam.html
+</p>
 
-    cout << sizeof(cake) << endl;
-    cout << sizeof((const char *)cake) << endl;
+<pre>
+cout << sizeof(cake) << endl;
+cout << sizeof((const char *)cake) << endl;
+</pre>
 
-
+<pre>
 void f(const char cake[])
 {
     cout << sizeof(cake) << endl;
     cout << typeid(cake).name() << endl;
 }
-Explain that it is actually a pointer
-Then print typeid of cake in main
+</pre>
+<ul>
+<li>Explain that it is actually a pointer</li>
+<li>Then print typeid of cake in main</li>
+</ul>
 
+<!-- 
+Ideas: On buffer open, write buffer name to disk. Python project that listens to that and servers notes and the line for the current buffer on http. Uno app that auto-scrolls notes.
 auto in foreach is not reference
 move
-
-Ideas: On buffer open, write buffer name to disk. Python project that listens to that and servers notes and the line for the current buffer on http. Uno app that auto-scrolls notes.
 Fixing fonts: Use a global to hold the number, increase/decrease that and then set guifont. Then we avoid parsing. +/- to change.
 §¶
 Most important const
 Can we have a const member array and still change content
 Overload resolution, rank and all that stuff, implcit and explicit conversions
+-->
 
-Why did I make this talk?
--If you want to know how something works in C/C++, the worst thing you can do is try and see!
--Everything is there in the standard, don't be afraid to have a look. It can be a bit confusing at first, but you get used to it. Language is intended to be precise, it's not written as a tutorial.
--I like technical talks about how low-level stuff actually works. Enough talks about yet another framework or process!
+<h2> Why did I make this talk?</h2>
+<ul>
+<li>If you want to know how something works in C/C++, the worst thing you can do is try and see!</li>
+<li>Everything is there in the standard, don't be afraid to have a look. It can be a bit confusing at first, but you get used to it. Language is intended to be precise, it's not written as a tutorial.</li>
+<li>I like technical talks about how low-level stuff actually works. Enough talks about yet another framework or process!</li>
+<li>Let's go through and see what we have been discussing</li>
+</ul>
+
+<p>
+Are there any further questions?
+</p>
+
+<p>
+Allright, then I'll say thank you for coming, have a great party, and please join me for a beer if you're interested to hear more about what we're building at Outracks.
+</p>
 
 
-New talk description:
-So you think you can int? (C++)
-
-There's an old saying; "When in doubt, do as the ints do.". But what do they do, exactly? How big is an int? What happens if it's not initialized? What happens when it overflows? Why on earth does 1["ABC"] even compile?
-
-In this talk, you will learn why you need to know operating system security, activation records and standardese to understand a simple int in C++.
 </body></html>
