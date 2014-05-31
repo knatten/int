@@ -3,7 +3,7 @@ nnoremap <space> :bn<CR>
 nnoremap <BS> :bp<CR>
 1,1000bdelete
 hi NonText guifg=bg
-"command! -nargs=0 Cpp !g++ -std=c++0x % && ./a.out
+command! -nargs=0 Cpp !g++ -std=c++0x % && ./a.out
 nnoremap <F5> :Cpp<CR>
 nnoremap <F2> :!bc<CR>
 inoremap <F5> <ESC><ESC>:w<CR>:Cpp<CR>
