@@ -252,28 +252,23 @@ Could we understand this without taking the proof all the way?
 </p>
 
 <h1 id="abc5.cpp">abc5.cpp</h1>
-<pre>
-cout << typeid("ABC").name() << endl;
-</pre>
 
 <ul>
-<li>Remove parenthesis. </li>
-<li>Arrays almost don't exist in C++. They will very quickly decay to a pointer.</li>
+<li>Remove parenthesis.</li>
 <li>§2.14.5¶8 A narrow string literal has type “array of n const char”</li>
+<li><code>cout << typeid("ABC").name() << endl;</code></li>
+<li>Arrays almost don't exist in C++. They will very quickly decay to a pointer.</li>
+<li>Adding int to array: Array decays to pointer, add int, result is a pointer.</li>
 <li>Also manually cast "ABC" to const char*</li>
+<li><code>cout << typeid(1 + "ABC").name() << endl;</code></li>
+<li>So if we break it up a little:</li>
+<li><code>const char* ptr = 1 + "ABC";</code></li>
+<li><code>cout << ptr << endl;</code></li>
+<li>What does this print? Still B? No, since we now have a char* it prints until null terminator.</li>
+<li>We need to dereference to print a single char</li>
+<li><code>cout << *ptr << endl;</code></li>
 </ul>
 
-<pre>
-cout << typeid(1 + "ABC").name() << endl;
-const char* ptr = 1 + abc;
-cout << ptr << endl;
-</pre>
-<p>
-Is this going to print B?
-</p>
-<pre>
-    cout << *ptr << endl;
-</pre>
 
 <h1 id="arrays.cpp">arrays.cpp</h1>
 <p>
