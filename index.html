@@ -262,12 +262,14 @@ Could we understand this without taking the proof all the way?
 <li>Also manually cast "ABC" to const char*</li>
 <li><code>cout << typeid(1 + "ABC").name() << endl;</code></li>
 <li>So if we break it up a little:</li>
-<li><code>const char* ptr = 1 + "ABC";</code></li>
+<li><code>const char* abc = "ABC"</code></li>
+<li><code>const char* ptr = 1 + abc;</code></li>
 <li><code>cout << ptr << endl;</code></li>
 <li>What does this print? Still B? No, since we now have a char* it prints until null terminator.</li>
 <li>We need to dereference to print a single char</li>
 <li><code>cout << *ptr << endl;</code></li>
 </ul>
+
 
 
 <h1 id="arrays.cpp">arrays.cpp</h1>
