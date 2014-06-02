@@ -216,6 +216,7 @@ Skip
 <li>What does it print?</li>
 <li>Then put static in front of int i;</li>
 <li>Then put static in front of int j;</li>
+<li>Then add an int parameter to g and call g(4)</li>
 </ul>
 
 <p>But wait a minute, what is a static variable?</p>
@@ -269,6 +270,10 @@ Could we understand this without taking the proof all the way?
 <li>What does this print? Still B? No, since we now have a char* it prints until null terminator.</li>
 <li>We need to dereference to print a single char</li>
 <li><code>cout << *ptr << endl;</code></li>
+<li>But if arrays decay to pointers, how come typeid doesn't decay?</li>
+<li>It's not a function, it's an operator. For non-polymorphic types, it returns the static type of the expression</li>
+<li>void typoid(const char c[]) { cout << typeid(c).name() << endl; }</li>
+<li>typoid("ABC");</li>
 </ul>
 
 
