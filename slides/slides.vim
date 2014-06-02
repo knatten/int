@@ -4,9 +4,12 @@ nnoremap <BS> :bp<CR>
 1,1000bdelete
 hi NonText guifg=bg
 command! -nargs=0 Cpp !g++ -std=c++0x % && ./a.out
+command! -nargs=0 Nm !g++ -std=c++0x % -o obj.o && nm obj.o
 nnoremap <F5> :Cpp<CR>
+nnoremap <F6> :Nm<CR>
 nnoremap <F2> :!bc<CR>
 inoremap <F5> <ESC><ESC>:w<CR>:Cpp<CR>
+inoremap <F6> <ESC><ESC>:w<CR>:Cpp<CR>
 let g:fontsize=18
 nnoremap <A-+> :let g:fontsize=g:fontsize+1<CR>:let &guifont="Monospace ".g:fontsize<CR>
 nnoremap <A--> :let g:fontsize=g:fontsize-1<CR>:let &guifont="Monospace ".g:fontsize<CR>
