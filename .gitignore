@@ -1,3 +1,4 @@
 *.swp
 a.out
 current_slide
+obj.o
