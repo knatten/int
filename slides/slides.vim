@@ -38,4 +38,4 @@ n author.txt
 \ abc3.cpp
 \ abc4.cpp
 \ abc5.cpp
-\ summary.cpp
+\ summary.txt
