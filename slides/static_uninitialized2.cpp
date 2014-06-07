@@ -11,7 +11,7 @@ void f()
 
 void g()
 {
-    int j = 3;
+    static int j = 3;
 }
 
 int main()

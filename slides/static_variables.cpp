@@ -11,6 +11,7 @@ void x()
 {
     int e;
     static int f;
+    b = 0;
 }
 
 int main(){}
